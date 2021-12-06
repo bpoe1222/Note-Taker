@@ -35,6 +35,12 @@ fs.readFile('db/db.json', 'utf8', (err, data) => {
     app.get('*', function(req,res) {
         res.sendFile(path.join(__dirname, "public/index.html"));
     });
+
+    app.delete("/api/notes/:id", function(req, res) {
+        notes.splice(req.params.id, 1);
+        updateDb();
+        console.log("Deleted note " + req.params.id);
+    });
     
     function newNotes() {
         fs.writeFile("db/db.json",JSON.stringify(allNotes,'\t'),err => {
